@@ -35,7 +35,7 @@ sequence3 = Sequence.new(Assign.new(:i, Number.new(0)),
 														 Assign.new(:i,Add.new(Variable.new(:i),Number.new(1))) ) 
 												)
 Machine.new(sequence3, {}).run								
-puts '------------big-step-semantic---------------------------------------------------------'
+puts '------------------------------big-step-semantic---------------------------------------'
 display = DisplayHelper.new
 display.run(Number.new(2))
 display.run(Multiply.new(Number.new(2),Number.new(3)).evaluate({}))
@@ -62,7 +62,7 @@ display.run( While.new( LessThan.new(Variable.new(:x),Number.new(2)),
 											Assign.new(:x, Add.new(Variable.new(:x),Number.new(1))) 
 											).evaluate({x:Number.new(0)}) 
 					 )
-puts '------------------denotation-semantic--------------------------------------------------'
+puts '--------------------------------denotation-semantic-----------------------------------'
 translator = Translator.new
 translator.run( Number.new(3).to_ruby, {})
 translator.run( Boolean.new(false).to_ruby, {})

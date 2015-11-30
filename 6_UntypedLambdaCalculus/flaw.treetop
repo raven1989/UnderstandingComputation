@@ -1,0 +1,54 @@
+grammar RightCombination
+  rule expression
+	  calls / multiply
+	end
+
+	rule multiply
+	  #left:multiply '*' right:number {
+		#这样写会栈溢出，只能写成下面的形式，但是下面的形式是右结合的
+    #1*2*3 = 1*(2*3)
+	  left:number '*' right:multiply {
+			def to_ast
+			  left.to_ast+'*'+right.to_ast
+			end
+		}
+		/
+		number
+	end
+	rule number
+	  [0-9]+ {
+			def to_ast
+			  text_value
+			end
+		}
+	end
+
+#调用是左结合的，如果可以，我们想写成
+# rule calls 
+#   left:calls right:( '[' variable ']' )+ {
+# 	}
+# 	/
+# 	variable
+# end
+#但是不能，另外由于调用不像乘那样满足交换律，p[x]!=x[p]
+#所以只能像下面这样处理
+
+	rule calls
+	  first:(variable) rest:( '[' variable ']')+ {
+			def to_ast
+				arguments.map(&:to_ast).inject(first.to_ast){|r,e| LCCall.new(r,e)}	
+			end
+			def arguments
+			  rest.elements.map(&:variable)
+			end
+		}
+	end
+	rule variable
+	  [a-z]+ {
+			def to_ast
+			  LCVariable.new(text_value.to_sym)
+			end
+		}
+	end
+
+end

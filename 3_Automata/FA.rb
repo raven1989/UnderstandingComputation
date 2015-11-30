@@ -85,7 +85,9 @@ class NFA < Struct.new(:current_states, :accept_states, :rulebook)
 		end
 	end
 	def current_states
-		#super表示调用父类同名函数，并把所有参数传进去
+		#super表示调用父类同名函数，并把所有参数传进去，这里的super=Struct的current_states
+		#不能直接写current_states是因为这里的current_states已经被重载成当前的这个函数了，这明显是一个错误的参数
+		#我们想要的其实是父类的那个对象current_states
 		rulebook.follow_free_moves(super)
 	end
 end
