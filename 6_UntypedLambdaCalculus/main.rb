@@ -86,4 +86,4 @@ my_fizzbuzz = MAP[ RANGE[ONE][HUNDRED] ][ ->n{
 		]
 	]
 }]
-# puts to_array(my_fizzbuzz).map{|p| to_string(p)}
+puts to_array(my_fizzbuzz).map{|p| to_string(p)}
